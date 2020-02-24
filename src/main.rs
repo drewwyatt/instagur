@@ -14,7 +14,11 @@ fn index() -> &'static str {
 
 #[post("/image", format = "json", data = "<img>")]
 fn upload(img: Json<ImgurImg>) -> String {
-  img.url.clone()
+  let comment = match img.comment {
+    Some(inner) => inner.clone(),
+    None => String::from(""),
+  };
+  format!("The url is: '{}', the comment is: '{}'", img.url, comment)
 }
 
 fn main() {
